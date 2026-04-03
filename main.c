@@ -19,7 +19,7 @@ void Main(void)
 
 	for (;;)
 	{
-		TIM1_PWM_Set_Duty(1900);
+		TIM1_PWM_Set_Duty(19000);
 		TIM2_Delay(2000);
 		TIM1_PWM_Stop();
 	}
