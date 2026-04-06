@@ -24,6 +24,7 @@ static void Sys_Init(int baud)
 	Uart2_Init(baud);
 	Uart1_Init(baud);
     Controller_Init();
+    Step_Init();
     Motor_PWM_Init();
 	setvbuf(stdout, NULL, _IONBF, 0);
 }

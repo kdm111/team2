@@ -5,6 +5,7 @@
 #include "controller.h"
 #include "motor.h"
 #include "timer.h"
+#include "step.h"
 
 // Uart.c
 
