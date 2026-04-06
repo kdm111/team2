@@ -163,16 +163,25 @@ void TIM3_OUT_Init(void)
     TIM3->CCR3 = 0;
     TIM3->CCR4 = 0;
 
-    TIM3->CR1 = (1<<7)|(1<<0);         // ARPE=1, CEN=1
-    Macro_Set_Bit(TIM3->EGR, 0);
+    TIM3->CR1 = (1<<7) | (0<<3) | (1<<4);         // ARPE=1,  Mode, down counter
+    Macro_Set_Bit(TIM3->EGR,0);
+	Macro_Clear_Bit(TIM3->SR, 0);
+    Macro_Set_Bit(TIM3->CR1,0); // Timer Start
 }
 
 // 구버전 이름 호환 (motor 모듈에서 호출 시)
 void TIM3_Out_Init(void) { TIM3_OUT_Init(); }
 
+void TIM3_SET_ALL(unsigned short red, unsigned short green, unsigned short blue) // 0~255값 받기
+{
+	TIM3->CCR2 = TIM3->ARR * red / 255;
+	TIM3->CCR3 = TIM3->ARR * green / 255;
+	TIM3->CCR4 = TIM3->ARR * blue / 255;
+}
+
 void TIM3_Out_Stop(void)
 {
-    Macro_Clear_Bit(TIM3->CR1, 0);
+	Macro_Clear_Bit(TIM3->CR1, 0);
 }
 
 
