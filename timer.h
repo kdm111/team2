@@ -14,6 +14,8 @@ extern unsigned int TIM2_Stopwatch_Stop(void);
 // TIM3 — RGB LED PWM (PC7 CH2=R / PC8 CH3=G / PC9 CH4=B)  1kHz
 extern void TIM3_OUT_Init(void);
 extern void TIM3_Out_Stop(void);
+extern void TIM3_SET_ALL(unsigned short r, unsigned short g, unsigned short b);
+extern void TIM3_Start(void);
 
 // TIM4 — Repeat 타이머 / 인터럽트 (IRQ 30)
 extern void TIM4_OUT_Init(void);

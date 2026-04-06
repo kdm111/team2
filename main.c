@@ -28,8 +28,6 @@ static void Sys_Init(int baud)
 	setvbuf(stdout, NULL, _IONBF, 0);
 }
 
-
-
 void delay_ms(volatile int ms) 
 {
     volatile int i, j;
@@ -50,6 +48,7 @@ void Main(void)
     int esc_pwm = 1500;
     int servo_pwm = 1500;
     unsigned int x_val = 0, y_val = 0;
+    Set_LED_By_Enum(2); // 빨~보 + 흰색
     for(;;) {
         
         
