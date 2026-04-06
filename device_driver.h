@@ -2,6 +2,9 @@
 #include "option.h"
 #include "macro.h"
 #include "malloc.h"
+#include "controller.h"
+#include "motor.h"
+#include "timer.h"
 
 // Uart.c
 
@@ -42,23 +45,6 @@ extern void Key_Wait_Key_Released(void);
 extern void Key_Wait_Key_Pressed(void);
 extern void Key_ISR_Enable(int en);
 
-// Timer.c
-extern void Timer_Init(void);
-extern void TIM1_PWM_Set_Duty(unsigned int usec);
-extern void TIM1_PWM_Stop(void);
-
-extern void TIM2_Delay(int time);
-extern void TIM2_Stopwatch_Start(void);
-extern unsigned int TIM2_Stopwatch_Stop(void);
-extern void TIM4_Repeat(int time);
-extern int TIM4_Check_Timeout(void);
-extern void TIM4_Stop(void);
-extern void TIM4_Change_Value(int time);
-extern void TIM4_Repeat_Interrupt_Enable(int en, int time);
-extern void TIM3_Out_Init(void);
-extern void TIM3_Out_Freq_Generation(unsigned short freq);
-extern void TIM3_Out_Stop(void);
-
 // i2c.c
 
 #define SC16IS752_IODIR				0x0A
@@ -83,3 +69,4 @@ extern void ADC1_Start(void);
 extern void ADC1_Stop(void);
 extern int ADC1_Get_Status(void);
 extern int ADC1_Get_Data(void);
+
