@@ -12,7 +12,7 @@ void Controller_Init(void){
     Macro_Write_Block(ADC1->SMPR2, 0x7, 0x7, 15); 	// CH5 (5*3=15)
     Macro_Set_Bit(ADC1->CR1, 8);
 
-	Macro_Write_Block(ADC1->SQR1, 0xF, 0x1, 20); 	// Conversion Sequence No = 2
+	Macro_Write_Block(ADC1->SQR1, 0xF, 0x0, 20); 	// Conversion Sequence No = 2
 	Macro_Write_Block(ADC1->SQR3, 0x1F, 6, 0); 		// Sequence Channel of No 1 = CH6
 	Macro_Write_Block(ADC1->SQR3, 0x1F, 5, 5); 		// Sequence Channel of No 2 = CH5
 
