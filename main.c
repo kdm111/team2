@@ -1,6 +1,5 @@
 #include "device_driver.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 // ── 조이스틱 보정값 (실측 기반) ──────────────────────────
 #define X_CENTER    2020    // X축 중립 ADC값
@@ -12,9 +11,9 @@
 #define SERVO_MID   1325    // 서보 중립 PWM (실측 1493 → 보정값)
 #define SERVO_MAX   1700
 
-#define ESC_MIN     1475
-#define ESC_MID     1525    // ESC 중립 PWM
-#define ESC_MAX     1575
+#define ESC_MIN     1400
+#define ESC_MID     1540    // ESC 중립 PWM
+#define ESC_MAX     1750
 
 static void Sys_Init(int baud) 
 {
@@ -49,8 +48,9 @@ void Main(void)
     int esc_pwm = 1500;
     int servo_pwm = 1500;
     unsigned int x_val = 0, y_val = 0;
+    Move_Angle(360); // 360도 회전
     // Set_LED_By_Enum(2); // 빨~보 + 흰색
-    Reverse_Buzzer_Beep();
+    // Reverse_Buzzer_Beep();
     
     for(;;) {
         
@@ -80,14 +80,15 @@ void Main(void)
         {
             esc_pwm = ESC_MID;
         }
-        else if(y_off < 0)
+        else if(y_off < 0) 
         {
-            esc_pwm = ESC_MID + y_off * (ESC_MID - ESC_MIN) / Y_CENTER;
+            esc_pwm = ESC_MID + (-y_off) * (ESC_MID - ESC_MIN) / Y_CENTER;
         }
         else
         {
-            esc_pwm = ESC_MID + y_off * (ESC_MAX - ESC_MID) / (4095 - Y_CENTER);
+            esc_pwm = ESC_MID + (-y_off) * (ESC_MAX - ESC_MID) / (3800-Y_CENTER);
         }
+        // esc_pwm이 작으면 전진, 크면 후진이기 때문에 y_off에 -붙여서 값 반전
 
         // 안전 클램프
         if(servo_pwm < SERVO_MIN) servo_pwm = SERVO_MIN;
@@ -99,12 +100,9 @@ void Main(void)
         Set_Curr_Servo_Motor_State(servo_pwm);
         printf("x_val : %d y_val : %d esc_pwm : %d servo_pwm : %d\n", x_val, y_val, Get_Curr_DC_Motor_State(), Get_Curr_DC_Servo_State());
 
-        // 5. 출력 최적화 (너무 잦은 출력은 시스템을 멈추게 함)
-        // 디버깅 시에는 중요한 값만 하나씩 출력하세요.
-        //printf("X:%u Y:%u | E:%d S:%d\r\n", x_val, y_val, esc_pwm, servo_pwm);
-
+        
         // // 6. 루프 주기 조절 (약 20ms ~ 50ms)
-        TIM2_Delay(1000); 
+        TIM2_Delay(50); 
         // //1000ms에 한 번만 출력 (100ms * 10)
     }
 }
