@@ -280,7 +280,8 @@ void TIM5_Out_Freq_Generation(unsigned short freq)
     TIM5->ARR  = (unsigned int)((double)TIM5_COUNTER_FREQ / freq) - 1;
     TIM5->CCR2 = TIM5->ARR / 2;        // 50% duty
     Macro_Set_Bit(TIM5->EGR, 0);
-    TIM5->CR1  = (1<<4)|(0<<3)|(0<<1)|(1<<0);
+    Macro_Clear_Bit(TIM5->SR, 0);
+    TIM5->CR1  |= (1<<4)|(0<<3)|(0<<1)|(1<<0);
 }
 
 void TIM5_Out_Stop(void)

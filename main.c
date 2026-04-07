@@ -49,7 +49,9 @@ void Main(void)
     int esc_pwm = 1500;
     int servo_pwm = 1500;
     unsigned int x_val = 0, y_val = 0;
-    Set_LED_By_Enum(2); // 빨~보 + 흰색
+    // Set_LED_By_Enum(2); // 빨~보 + 흰색
+    Reverse_Buzzer_Beep();
+    
     for(;;) {
         
         
