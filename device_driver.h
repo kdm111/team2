@@ -6,6 +6,7 @@
 #include "motor.h"
 #include "timer.h"
 #include "step.h"
+#include "buzzer.h"
 
 // Uart.c
 
