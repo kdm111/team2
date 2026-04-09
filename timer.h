@@ -10,6 +10,7 @@ extern void TIM2_OUT_Init(void);
 extern void TIM2_Delay(int time);
 extern void TIM2_Stopwatch_Start(void);
 extern unsigned int TIM2_Stopwatch_Stop(void);
+extern void TIM2_Repeat_Interrupt_Enable(int en, int time);
 
 // TIM3 — RGB LED PWM (PC7 CH2=R / PC8 CH3=G / PC9 CH4=B)  1kHz
 extern void TIM3_OUT_Init(void);
