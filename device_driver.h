@@ -55,6 +55,9 @@ extern void I2C1_SC16IS752_Write_Reg(unsigned int addr, unsigned int data);
 extern void I2C1_SC16IS752_Config_GPIO(unsigned int config);
 extern void I2C1_SC16IS752_Write_GPIO(unsigned int data);
 
+// I2C 검증 유틸리티
+extern void I2C_Verify(void);
+
 // spi.c
 
 extern void SPI1_SC16IS752_Init(unsigned int div);

@@ -1,6 +1,6 @@
 #include "device_driver.h"
 
-/* freg = 5000 ~ 100000 */
+/* freg = 5000 ~ 400000 */
 
 #define SC16IS752_I2CADDR									0x9A
 #define SC16IS752_I2CADDR_WR								(SC16IS752_I2CADDR|0x0)
@@ -20,12 +20,13 @@ void I2C1_SC16IS752_Init(unsigned int freq)
 	Macro_Set_Bit(RCC->APB1RSTR, 21);
 	for(i = 0; i < 1000; i++);
 	Macro_Clear_Bit(RCC->APB1RSTR, 21);
-
-	Macro_Write_Block(GPIOB->MODER, 0xf, 0xa, 12);  	// PB[7:6] => ALT
-	Macro_Write_Block(GPIOB->AFR[0], 0xff, 0x44, 24); 	// PB[7:6] => AF04
-	Macro_Write_Block(GPIOB->OTYPER, 0x3, 0x3, 6); 		// PB[7:6] => Open Drain
-	Macro_Write_Block(GPIOB->OSPEEDR, 0xf, 0xa, 12); 	// PB[7:6] => Fast Speed
-	Macro_Write_Block(GPIOB->PUPDR, 0xf, 0x5, 12); 		// PB[7:6] => Internal Pull-up
+	
+	// 우리는 PB8,9를 사용
+	Macro_Write_Block(GPIOB->MODER, 0xf, 0xa, 16);  	// PB[9:8] => ALT
+	Macro_Write_Block(GPIOB->AFR[1], 0xff, 0x44, 0); 	// PB[9:8] => AF04
+	Macro_Write_Block(GPIOB->OTYPER, 0x3, 0x3, 8); 		// PB[9:8] => Open Drain
+	Macro_Write_Block(GPIOB->OSPEEDR, 0xf, 0xa, 16); 	// PB[9:8] => Fast Speed
+	Macro_Write_Block(GPIOB->PUPDR, 0xf, 0x5, 16); 		// PB[9:8] => Internal Pull-up
 
 	Macro_Write_Block(I2C1->CR2, 0x3f, PCLK1 / 1000000, 0);
 	Macro_Clear_Bit(I2C1->CR1, 0);
@@ -49,9 +50,11 @@ void I2C1_SC16IS752_Write_Reg(unsigned int addr, unsigned int data)
 	while(Macro_Check_Bit_Clear(I2C1->SR1, 1));					// Check Address
 	(void)I2C1->SR2;											// Clear ADDR flag by reading SR2
 
+	while(Macro_Check_Bit_Clear(I2C1->SR1, 7));					// Check TxE
 	I2C1->DR = addr << 3;										// Send Register Address
 	while(Macro_Check_Bit_Clear(I2C1->SR1, 2));					// Check Byte Transfer Finished
 
+	while(Macro_Check_Bit_Clear(I2C1->SR1, 7));					// Check TxE	
 	I2C1->DR = data;											// Send Data
 	while(Macro_Check_Bit_Clear(I2C1->SR1, 2));					// Check Byte Transfer Finished
 
