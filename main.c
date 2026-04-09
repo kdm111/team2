@@ -37,6 +37,7 @@ static void Sys_Init(int baud)
 
 volatile unsigned short timer2_interrupt_count = 0;
 volatile unsigned char LED_STATE = 0;
+volatile int step_done = 0;
 
 void Main(void)
 {
@@ -45,7 +46,8 @@ void Main(void)
     Curr_Motor_Init();
 
     TIM4_Repeat_Interrupt_Enable(1,100); // 100ms
-    
+    TIM2_Repeat_Interrupt_Enable(1,2); // 1000ms
+
     I2C_Verify();
     // Improve accuracy: increase timing budget and require minimum signal rate
     Set_Signal_Rate_Limit(0.25f);    // 0.25 MCPS
@@ -79,6 +81,11 @@ void Main(void)
                 LED_STATE = (LED_STATE + 1) % 3;
             }
         #endif
+        
+        if(step_done) {
+            printf("\n스텝 모터 동작 완료\n");
+            step_done = 0;
+        }
         
         Get_ADC_Values(&x_val, &y_val);
         
@@ -123,6 +130,6 @@ void Main(void)
         else if(esc_pwm > 1550) printf("REVERSE  <<\r\n");
         else                    printf("STOP\r\n");
 
-        TIM2_Delay(30); 
+        // TIM2_Delay(30); 
     }
 }

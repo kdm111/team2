@@ -116,6 +116,26 @@ void TIM2_Delay(int time)
     Macro_Clear_Bit(TIM2->CR1, 0);
 }
 
+void TIM2_Repeat_Interrupt_Enable(int en, int time)
+{
+    if(en)
+    {
+        TIM2->CR1 = (1<<4)|(0<<3);
+        TIM2->ARR = (unsigned int)(TIM2_PLS_PER_MS * time);
+        Macro_Set_Bit(TIM2->EGR, 0);
+        Macro_Clear_Bit(TIM2->SR, 0);
+        NVIC_ClearPendingIRQ(28);
+        Macro_Set_Bit(TIM2->DIER, 0);
+        NVIC_EnableIRQ(28);
+        Macro_Set_Bit(TIM2->CR1, 0);
+    }
+    else
+    {
+        NVIC_DisableIRQ(28);
+        Macro_Clear_Bit(TIM2->CR1, 0);
+        Macro_Clear_Bit(TIM2->DIER, 0);
+    }
+}
 
 // ============================================================
 //  TIM3  —  RGB LED PWM  (PC7 CH2=R / PC8 CH3=G / PC9 CH4=B)
