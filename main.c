@@ -35,6 +35,14 @@ static void Sys_Init(int baud)
     setvbuf(stdout, NULL, _IONBF, 0);
 }
 
+//임시 딜레이함수
+void delay_ms(uint32_t ms) {
+    for (uint32_t i = 0; i < ms; i++) {
+        volatile uint32_t count = 24000; // 96MHz 기준 약 1ms
+        while (count--);
+    }
+}
+
 volatile unsigned short timer2_interrupt_count = 0;
 volatile unsigned char LED_STATE = 0;
 volatile int step_done = 0;
@@ -45,46 +53,52 @@ void Main(void)
     printf("\r\n[SYSTEM] Calibration Fixed! Neutral: 1965\r\n");
     Curr_Motor_Init();
 
-    TIM4_Repeat_Interrupt_Enable(1,100); // 100ms
-    TIM2_Repeat_Interrupt_Enable(1,2); // 1000ms
+    // I2C_Verify();
+    // // Improve accuracy: increase timing budget and require minimum signal rate
+    // Set_Signal_Rate_Limit(0.25f);    // 0.25 MCPS
+    // Set_Measurement_Timing_Budget(300000); // 300 ms
 
-    I2C_Verify();
-    // Improve accuracy: increase timing budget and require minimum signal rate
-    Set_Signal_Rate_Limit(0.25f);    // 0.25 MCPS
-    Set_Measurement_Timing_Budget(300000); // 300 ms
-
-    if(Init_VL53L0X(true)){
-		printf("VL53L0X initialized\n");
-	} else {
-		printf("VL53L0X init failed\n");
-	}
+    // if(Init_VL53L0X(true)){
+	// 	printf("VL53L0X initialized\n");
+	// } else {
+	// 	printf("VL53L0X init failed\n");
+	// }
     
+    // TIM4_Repeat_Interrupt_Enable(1,100); // 100ms
+    // TIM2_Repeat_Interrupt_Enable(1,2); // 1000ms
 
+    
     int esc_pwm = ESC_MID;
     int servo_pwm = SERVO_MID;
     unsigned int x_val = 0, y_val = 0;
     
     for(;;) {
 
-        #ifdef USE_VL53_DEMO
-            // 데모가 활성화된 경우 데모 함수로 분기 (내부에서 무한 루프 수행)
-            VL53_RunDemo();
-        #else
-            if (timer2_interrupt_count%2==0){
-                uint16_t dist = Read_Range_Single_Millimeters(0);
-                if(dist == 65535) {
-                    printf("Timeout or error reading distance\n");
-                } else {
-                    printf("Distance: %u mm\n", dist);
-                }
-
-                LED_STATE = (LED_STATE + 1) % 3;
-            }
-        #endif
-        
+        // #ifdef USE_VL53_DEMO
+        //     // 데모가 활성화된 경우 데모 함수로 분기 (내부에서 무한 루프 수행)
+        //     VL53_RunDemo();
+        // #else  
+        //         uint16_t dist = Read_Range_Single_Millimeters(0);
+        //         if(dist == 65535) {
+        //             printf("Timeout or error reading distance\n");
+        //         } else {
+        //             printf("Distance: %u mm\n", dist);
+        //         }
+        // #endif
+       
         if(step_done) {
             printf("\n스텝 모터 동작 완료\n");
             step_done = 0;
+        }
+
+        if(Uart1_Receive_Control(&esc_pwm, &servo_pwm) == 1) {
+            printf("수신완료\n");
+            printf("ESC: %d, SERVO: %d\n", esc_pwm, servo_pwm);
+            delay_ms(1000); //1초 
+            printf("1초 후\n");
+            printf("ESC: %d, SERVO: %d\n", esc_pwm, servo_pwm);
+            esc_pwm = ESC_MID;
+            servo_pwm = SERVO_MID;
         }
         
         Get_ADC_Values(&x_val, &y_val);

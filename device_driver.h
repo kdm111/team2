@@ -20,6 +20,7 @@ extern void Uart1_Send_String(char *pt);
 extern void Uart1_Printf(char *fmt,...);
 extern char Uart1_Get_Char(void);
 extern char Uart1_Get_Pressed(void);
+extern int Uart1_Receive_Control(int *esc, int *servo);
 
 // SysTick.c
 

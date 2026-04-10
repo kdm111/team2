@@ -141,3 +141,32 @@ char Uart1_Get_Char(void)
 	while(!Macro_Check_Bit_Set(USART1->SR, 5));
 	return (char)USART1->DR;
 }
+
+int Uart1_Receive_Control(int *esc, int *servo)
+{
+    // 데이터 없으면 바로 리턴
+    if(Uart1_Get_Pressed() == 0) return -1;
+
+    char buf[32];
+    int  idx = 0;
+    char c;
+
+    // 첫 글자 이미 왔으니 나머지만 블로킹으로 수신
+    while(1)
+    {
+        c = Uart1_Get_Char();
+
+        if(c == '\n' || c == '\r')
+        {
+            buf[idx] = '\0';
+            break;
+        }
+
+        if(idx < (int)(sizeof(buf) - 1))
+            buf[idx++] = c;
+    }
+
+    sscanf(buf, "E%dS%d", esc, servo);
+
+    return 1;
+}
