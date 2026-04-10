@@ -22,7 +22,8 @@
 ### 2. STM32 내부 제어 알고리즘
 하드웨어의 안전한 기동과 실시간 데이터 처리를 위한 소프트웨어 흐름도입니다.
 
-<img width="5173" height="4665" alt="플로우차트3" src="https://github.com/user-attachments/assets/63a37ab5-c0c3-42ce-85c0-bcd7c2678796" />
+<img width="5173" height="4623" alt="플로우차트3" src="https://github.com/user-attachments/assets/4aedc76e-759d-4ab2-8b58-786e671b37ef" />
+
 
 
 ---
