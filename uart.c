@@ -147,26 +147,42 @@ int Uart1_Receive_Control(int *esc, int *servo)
     // 데이터 없으면 바로 리턴
     if(Uart1_Get_Pressed() == 0) return -1;
 
-    char buf[32];
-    int  idx = 0;
     char c;
+    int temp_val = 0;
 
-    // 첫 글자 이미 왔으니 나머지만 블로킹으로 수신
-    while(1)
-    {
+    // --- 1. ESC 값 추출 ---
+    // 'E' 문자가 나올 때까지 건너뛰기
+    while((c = Uart1_Get_Char()) != 'E') {
+        if(c == '\n' || c == '\r') return 0; // 줄바꿈 나오면 실패 처리
+    }
+    
+    // 'E' 다음에 숫자가 나올 때까지 건너뛰기 (ESC= 건너뛰는 구간)
+    while((c = Uart1_Get_Char()) < '0' || c > '9');
+
+    // 숫자 파싱
+    temp_val = 0;
+    while(c >= '0' && c <= '9') {
+        temp_val = temp_val * 10 + (c - '0');
         c = Uart1_Get_Char();
+    }
+    *esc = temp_val; // 드디어 ESC 값 저장
 
-        if(c == '\n' || c == '\r')
-        {
-            buf[idx] = '\0';
-            break;
-        }
-
-        if(idx < (int)(sizeof(buf) - 1))
-            buf[idx++] = c;
+    // --- 2. SERVO 값 추출 ---
+    // 'S' 문자가 나올 때까지 건너뛰기 (SERVO의 S 찾기)
+    while((c = Uart1_Get_Char()) != 'S') {
+        if(c == '\n' || c == '\r') return 0;
     }
 
-    sscanf(buf, "E%dS%d", esc, servo);
+    // 'S' 다음에 숫자가 나올 때까지 건너뛰기
+    while((c = Uart1_Get_Char()) < '0' || c > '9');
 
-    return 1;
+    // 숫자 파싱
+    temp_val = 0;
+    while(c >= '0' && c <= '9') {
+        temp_val = temp_val * 10 + (c - '0');
+        c = Uart1_Get_Char();
+    }
+    *servo = temp_val; // 드디어 SERVO 값 저장
+
+    return 1; // 수신 및 파싱 성공!
 }

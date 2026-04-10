@@ -94,11 +94,6 @@ void Main(void)
         if(Uart1_Receive_Control(&esc_pwm, &servo_pwm) == 1) {
             printf("수신완료\n");
             printf("ESC: %d, SERVO: %d\n", esc_pwm, servo_pwm);
-            delay_ms(1000); //1초 
-            printf("1초 후\n");
-            printf("ESC: %d, SERVO: %d\n", esc_pwm, servo_pwm);
-            esc_pwm = ESC_MID;
-            servo_pwm = SERVO_MID;
         }
         
         Get_ADC_Values(&x_val, &y_val);
