@@ -18,15 +18,12 @@
 전체적인 하드웨어 구조도 입니다.
 <img width="7842" height="5775" alt="hw_architecture" src="https://github.com/user-attachments/assets/75534cb8-645e-435d-aa01-68c11ce04956" />
 
-### 1. 전체 데이터 통신 흐름
-사용자의 조작이 웹 서버를 거쳐 하드웨어까지 도달하는 데이터 경로입니다.
-<img width="7375" height="1130" alt="플로우차트" src="https://github.com/user-attachments/assets/c9898aba-a471-4868-bd3d-56b519819b10" />
-
-
-### 2. STM32 내부 제어 알고리즘
+### 2. SW 구조도
 하드웨어의 안전한 기동과 실시간 데이터 처리를 위한 소프트웨어 흐름도입니다.
+<img width="5368" height="8192" alt="sw_architecture" src="https://github.com/user-attachments/assets/5cb6244d-fd16-4b90-886f-3f7f12da1245" />
 
-<img width="5173" height="4623" alt="플로우차트3" src="https://github.com/user-attachments/assets/4aedc76e-759d-4ab2-8b58-786e671b37ef" />
+### 3. System-Flow
+사용자의 조작이 웹 서버를 거쳐 하드웨어까지 도달하는 데이터 경로입니다.
 
 
 
