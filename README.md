@@ -38,7 +38,7 @@
 사용자의 음성이 웹 서버를 거쳐 음성 ai에 의해 명령으로 변환되어 자동차를 제어하는 흐름도입니다.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="[https://github.com/user-attachments/assets/207d8853-b085-40d9-ab26-c9e5433acec5](https://github.com/user-attachments/assets/e98c6479-9aac-4b1b-a008-d605a10358cd)">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/50b9d68e-982f-410d-998d-0cb7f41793ee">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/2527536e-32c4-42c0-af7b-7dccb2569fb9">
   <img alt="sw_architecture" src="https://github.com/user-attachments/assets/2527536e-32c4-42c0-af7b-7dccb2569fb9">
 </picture>
