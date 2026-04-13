@@ -16,7 +16,7 @@
 
 ### 1. HW 구조도
 전체적인 하드웨어 구조도 입니다.
-<img width="7842" height="5775" alt="hw_architecture" src="https://github.com/user-attachments/assets/75534cb8-645e-435d-aa01-68c11ce04956" />
+<img width="7842" style="background-color:"azure"; height="5775" alt="hw_architecture" src="https://github.com/user-attachments/assets/75534cb8-645e-435d-aa01-68c11ce04956" />
 
 ### 2. SW 구조도
 하드웨어의 안전한 기동과 실시간 데이터 처리를 위한 소프트웨어 흐름도입니다.
