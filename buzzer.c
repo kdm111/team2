@@ -13,8 +13,8 @@ void Reverse_Buzzer_Beep(void)
     for(volatile int j = 0; j<4; j++){
         printf("부저 %d\n", j);
 		TIM5_Out_Freq_Generation(tone_value[A1_]);
-		TIM2_Delay(N4);
+		delay_ms(N4);
 		TIM5_Out_Stop();
-        TIM2_Delay(1000);
+		delay_ms(1000);
 	}
 }

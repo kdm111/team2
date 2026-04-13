@@ -37,8 +37,8 @@ void Get_ADC_Values(unsigned int *x_val, unsigned int *y_val) {
     *y_val = ADC1->DR;
 }
 
-void receive_packet(char* packet, int* x, int* y){
-    int num = atoi(packet);
-    *x = num / 10000;
-    *y = num % 10000;
-}
+// void receive_packet(char* packet, int* x, int* y){
+//     int num = atoi(packet);
+//     *x = num / 10000;
+//     *y = num % 10000;
+// }
