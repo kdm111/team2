@@ -16,7 +16,7 @@
 
 ### 1. HW 구조도
 전체적인 하드웨어 구조도 입니다.
-<img width="7981" height="5880" alt="hw_architecture" src="https://github.com/user-attachments/assets/e8614fd4-d851-4b8d-a153-1accf75d189b" />
+<img width="7842" height="5775" alt="hw_architecture" src="https://github.com/user-attachments/assets/75534cb8-645e-435d-aa01-68c11ce04956" />
 
 ### 1. 전체 데이터 통신 흐름
 사용자의 조작이 웹 서버를 거쳐 하드웨어까지 도달하는 데이터 경로입니다.
