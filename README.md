@@ -22,8 +22,14 @@
 하드웨어의 안전한 기동과 실시간 데이터 처리를 위한 소프트웨어 흐름도입니다.
 <img width="5368" height="8192" alt="sw_architecture" src="https://github.com/user-attachments/assets/5cb6244d-fd16-4b90-886f-3f7f12da1245" />
 
-### 3. System-Flow
-사용자의 조작이 웹 서버를 거쳐 하드웨어까지 도달하는 데이터 경로입니다.
+### 3. System-Flow - A : 음성 인식 제어
+사용자의 음성이 웹 서버를 거쳐 음성 ai에 의해 명령으로 변환되어 자동차를 제어하는 흐름도입니다.
+<img width="7220" height="8192" alt="system_flow_1" src="https://github.com/user-attachments/assets/2527536e-32c4-42c0-af7b-7dccb2569fb9" />
+
+### 4. System-Flow - B : STM32 로직 제어
+자동차 내부에서 데이터를 제어하는 흐름도입니다.
+<img width="7332" height="8192" alt="system_flow_2" src="https://github.com/user-attachments/assets/7e4eeee0-77a0-4b3e-9381-cf99446e2e94" />
+
 
 
 
