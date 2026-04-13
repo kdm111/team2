@@ -21,8 +21,8 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/22b42210-4994-4039-81df-e9d23d470036">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/7e4eeee0-77a0-4b3e-9381-cf99446e2e94">
-  <img alt="hw_architecture" src="https://github.com/user-attachments/assets/75534cb8-645e-435d-aa01-68c11ce04956">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/bdd910eb-c177-45bd-8d53-09ae7ad53918">
+  <img alt="hw_architecture" src="https://github.com/user-attachments/assets/bdd910eb-c177-45bd-8d53-09ae7ad53918">
 </picture>
 
 ### 2. SW 구조도
