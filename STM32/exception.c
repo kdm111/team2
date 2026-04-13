@@ -10,7 +10,7 @@ void _Invalid_ISR(void)
 	for(;;);
 }
 
-volatile int step_remaining = 512;
+volatile int step_remaining = 341;
 volatile int step_dir = 1;
 volatile int step_index = 0;
 extern volatile int step_done;
@@ -47,7 +47,7 @@ void TIM2_IRQHandler(void){
 
 extern volatile unsigned short timer2_interrupt_count;
 extern volatile unsigned char LED_STATE;
-volatile unsigned char pre_LED_STATE = -1;
+volatile char pre_LED_STATE = -1;
 void TIM4_IRQHandler(void)
 {
 	if(pre_LED_STATE != LED_STATE) { // 전과 다를때만 LED 변경
