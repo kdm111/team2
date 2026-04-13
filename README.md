@@ -1,4 +1,4 @@
-# 🏎️ GestDrive: WebSocket 기반 RC카 원격 제어 시스템
+# 🏎️ Drive: WebSocket 기반 RC카 원격 제어 시스템
 
 본 프로젝트는 **ESP32**와 **STM32F411RE**를 연동하여, 웹 환경에서 저지연(Low-latency)으로 실시간 조종이 가능한 1/10 스케일 RC카 제어 시스템입니다.
 
