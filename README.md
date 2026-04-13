@@ -36,13 +36,22 @@
 
 ### 3. System-Flow - A : 음성 인식 제어
 사용자의 음성이 웹 서버를 거쳐 음성 ai에 의해 명령으로 변환되어 자동차를 제어하는 흐름도입니다.
-<img width="7220" height="8192" alt="system_flow_1" src="https://github.com/user-attachments/assets/2527536e-32c4-42c0-af7b-7dccb2569fb9" />
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="[https://github.com/user-attachments/assets/207d8853-b085-40d9-ab26-c9e5433acec5](https://github.com/user-attachments/assets/e98c6479-9aac-4b1b-a008-d605a10358cd)">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/2527536e-32c4-42c0-af7b-7dccb2569fb9">
+  <img alt="sw_architecture" src="https://github.com/user-attachments/assets/2527536e-32c4-42c0-af7b-7dccb2569fb9">
+</picture>
+
 
 ### 4. System-Flow - B : STM32 로직 제어
 자동차 내부에서 데이터를 제어하는 흐름도입니다.
-<img width="7332" height="8192" alt="system_flow_2" src="https://github.com/user-attachments/assets/7e4eeee0-77a0-4b3e-9381-cf99446e2e94" />
 
-
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/207d8853-b085-40d9-ab26-c9e5433acec5">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/69c2de8d-acd4-4d0e-836a-142aa31c5cc9">
+  <img alt="sw_architecture" src="https://github.com/user-attachments/assets/69c2de8d-acd4-4d0e-836a-142aa31c5cc9">
+</picture>
 
 
 ---
