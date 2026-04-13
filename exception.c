@@ -37,7 +37,7 @@ void TIM2_IRQHandler(void){
     } else {
         STEP_ON(0);
         step_dir = -step_dir;   // 방향 반전
-        step_remaining = 512;   // 90도
+        step_remaining = 341;   // 60도
 		step_done = 1;
     }
 
@@ -53,9 +53,9 @@ void TIM4_IRQHandler(void)
 	if(pre_LED_STATE != LED_STATE) { // 전과 다를때만 LED 변경
 		pre_LED_STATE = LED_STATE;
 		switch(LED_STATE){
-			case 0: Set_LED_By_Enum(1); break;
-			case 1: Set_LED_By_Enum(3); break;
-			case 2: Set_LED_By_Enum(4); break;
+			case 0: Set_LED_By_Enum(1); break; // R
+			case 1: Set_LED_By_Enum(3); break; // Y
+			case 2: Set_LED_By_Enum(4); break; // G
 		}
 	}
 

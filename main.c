@@ -1,24 +1,24 @@
 #include "device_driver.h"
 #include <stdio.h>
-#include "VL53L0X.h"
+// #include "VL53L0X.h"
 
-#ifdef USE_VL53_DEMO
-extern void VL53_RunDemo(void);
-#endif
-// ── [영점 재조정] 현재 형철이의 실측 데이터 반영 ──────────
+// #ifdef USE_VL53_DEMO
+// extern void VL53_RunDemo(void);
+// #endif
+
 #define X_CENTER    2035    
 #define Y_BASE      1965    // <--- 현재 중립 상태에서 찍히는 값으로 변경!
 #define Y_FWD_MAX   3500    // 전진 최대 (위로 밀었을 때)
 #define Y_REV_MAX   200     // 후진 최대 (아래로 당겼을 때)
 
-#define SERVO_MIN    950
+#define SERVO_MIN    0
 #define SERVO_MID    1325    
-#define SERVO_MAX    1700
+#define SERVO_MAX    1800
 
 // 주행 파워 설정 (급발진 방지용)
-#define ESC_MIN      1400    // 전진 힘 (1350보다 높여서 더 부드럽게 가속)
+#define ESC_MIN      1350    // 전진 힘 (1350보다 높여서 더 부드럽게 가속)
 #define ESC_MID      1540    // 정지
-#define ESC_MAX      1800    // 후진 힘
+#define ESC_MAX      2100    // 후진 힘
 #define Y_DEAD       50      // 중립 유격 (손 떨림 방지)
 
 static void Sys_Init(int baud) 
@@ -31,17 +31,11 @@ static void Sys_Init(int baud)
     Controller_Init();
     Step_Init();        
     Motor_PWM_Init();   
-    I2C1_SC16IS752_Init(100000);
+    // I2C1_SC16IS752_Init(100000);
     setvbuf(stdout, NULL, _IONBF, 0);
 }
 
-//임시 딜레이함수
-void delay_ms(uint32_t ms) {
-    for (uint32_t i = 0; i < ms; i++) {
-        volatile uint32_t count = 24000; // 96MHz 기준 약 1ms
-        while (count--);
-    }
-}
+
 
 volatile unsigned short timer2_interrupt_count = 0;
 volatile unsigned char LED_STATE = 0;
@@ -64,8 +58,8 @@ void Main(void)
 	// 	printf("VL53L0X init failed\n");
 	// }
     
-    // TIM4_Repeat_Interrupt_Enable(1,100); // 100ms
-    // TIM2_Repeat_Interrupt_Enable(1,2); // 1000ms
+    TIM4_Repeat_Interrupt_Enable(1,100); // 100ms
+    TIM2_Repeat_Interrupt_Enable(1,5); // 스텝모터 인터럽트
 
     
     int esc_pwm = ESC_MID;
@@ -96,48 +90,58 @@ void Main(void)
             printf("ESC: %d, SERVO: %d\n", esc_pwm, servo_pwm);
         }
         
-        Get_ADC_Values(&x_val, &y_val);
+        //조이스틱 부분 (현재는 필요없음)
+        // Get_ADC_Values(&x_val, &y_val);
         
-        int x_off = (int)x_val - X_CENTER;
-        int y_val_int = (int)y_val;
+        // int x_off = (int)x_val - X_CENTER;
+        // int y_val_int = (int)y_val;
 
-        // 1. 조향 제어 (X축)
-        if(x_off > -100 && x_off < 100) servo_pwm = SERVO_MID;
-        else if(x_off < 0) servo_pwm = SERVO_MID + (x_off * (SERVO_MID - SERVO_MIN) / X_CENTER);
-        else servo_pwm = SERVO_MID + (x_off * (SERVO_MAX - SERVO_MID) / (4095 - X_CENTER));
+        // // 1. 조향 제어 (X축)
+        // if(x_off > -100 && x_off < 100) servo_pwm = SERVO_MID;
+        // else if(x_off < 0) servo_pwm = SERVO_MID + (x_off * (SERVO_MID - SERVO_MIN) / X_CENTER);
+        // else servo_pwm = SERVO_MID + (x_off * (SERVO_MAX - SERVO_MID) / (4095 - X_CENTER));
 
-        // 2. 주행 제어 (Y축: 전후진 부드러운 가속)
-        // [중립] 1965 근처 (1915 ~ 2015 사이)
-        if(y_val_int > Y_BASE - Y_DEAD && y_val_int < Y_BASE + Y_DEAD) {
-            esc_pwm = ESC_MID;
-        } 
-        // [전진] 2015 이상으로 밀었을 때 (부드럽게 가속)
-        else if(y_val_int >= Y_BASE + Y_DEAD) { 
-            int diff = y_val_int - Y_BASE;
-            // 1965 ~ 3500 범위를 1540 ~ 1400으로 아주 세밀하게 쪼개서 가속
-            esc_pwm = ESC_MID - (diff * (ESC_MID - ESC_MIN) / (Y_FWD_MAX - Y_BASE));
-        } 
-        // [후진] 1915 이하로 당겼을 때
-        else {
-            int diff = Y_BASE - y_val_int;
-            // 1965 ~ 200 범위를 1540 ~ 1800으로 맵핑
-            esc_pwm = ESC_MID + (diff * (ESC_MAX - ESC_MID) / (Y_BASE - Y_REV_MAX));
+        // // 2. 주행 제어 (Y축: 전후진 부드러운 가속)
+        // // [중립] 1965 근처 (1915 ~ 2015 사이)
+        // if(y_val_int > Y_BASE - Y_DEAD && y_val_int < Y_BASE + Y_DEAD) {
+        //     esc_pwm = ESC_MID;
+        // } 
+        // // [전진] 2015 이상으로 밀었을 때 (부드럽게 가속)
+        // else if(y_val_int >= Y_BASE + Y_DEAD) { 
+        //     int diff = y_val_int - Y_BASE;
+        //     // 1965 ~ 3500 범위를 1540 ~ 1400으로 아주 세밀하게 쪼개서 가속
+        //     esc_pwm = ESC_MID - (diff * (ESC_MID - ESC_MIN) / (Y_FWD_MAX - Y_BASE));
+        // } 
+        // // [후진] 1915 이하로 당겼을 때
+        // else {
+        //     int diff = Y_BASE - y_val_int;
+        //     // 1965 ~ 200 범위를 1540 ~ 1800으로 맵핑
+        //     esc_pwm = ESC_MID + (diff * (ESC_MAX - ESC_MID) / (Y_BASE - Y_REV_MAX));
+        // }
+
+        // // 3. 안전 제한
+        if(esc_pwm < ESC_MIN) esc_pwm = ESC_MIN;
+        else if(esc_pwm > ESC_MAX) esc_pwm = ESC_MAX;
+
+        if(servo_pwm < SERVO_MIN) servo_pwm = SERVO_MIN;
+        else if(servo_pwm > SERVO_MAX) servo_pwm = SERVO_MAX;
+        
+        if(esc_pwm <= ESC_MAX && esc_pwm >= 1660) { // 후진일때 대충 값
+           
+            LED_STATE=0; // 빨간불
+        }else if(esc_pwm >= ESC_MIN && esc_pwm <= 1450) { // 전진일때 대충 값
+            LED_STATE=2; // 초록불
+        }
+        else{
+            LED_STATE=1; // 노란불
         }
 
-        // 3. 안전 제한
-        if(esc_pwm < ESC_MIN) esc_pwm = ESC_MIN;
-        if(esc_pwm > ESC_MAX) esc_pwm = ESC_MAX;
-        if(servo_pwm < SERVO_MIN) servo_pwm = SERVO_MIN;
-        if(servo_pwm > SERVO_MAX) servo_pwm = SERVO_MAX;
-
+        
+        
         Set_Curr_DC_Motor_State(esc_pwm);
         Set_Curr_Servo_Motor_State(servo_pwm);
 
-        // 4. 모니터링 출력
-        printf("Y:%4u ESC:%4d | ", y_val, esc_pwm);
-        if(esc_pwm < 1530)      printf("FORWARD  >>\r\n");
-        else if(esc_pwm > 1550) printf("REVERSE  <<\r\n");
-        else                    printf("STOP\r\n");
+        
 
         // TIM2_Delay(30); 
     }

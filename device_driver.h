@@ -8,6 +8,14 @@
 #include "step.h"
 #include "buzzer.h"
 
+//임시 딜레이함수
+static inline void delay_ms(uint32_t ms) {
+    for (uint32_t i = 0; i < ms; i++) {
+        volatile uint32_t count = 24000; // 96MHz 기준 약 1ms
+        while (count--);
+    }
+}
+
 // Uart.c
 
 extern void Uart2_Init(int baud);
