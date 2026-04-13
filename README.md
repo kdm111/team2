@@ -27,7 +27,12 @@
 
 ### 2. SW 구조도
 하드웨어의 안전한 기동과 실시간 데이터 처리를 위한 소프트웨어 흐름도입니다.
-<img width="5368" height="8192" alt="sw_architecture" src="https://github.com/user-attachments/assets/5cb6244d-fd16-4b90-886f-3f7f12da1245" />
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/af7abef3-9e80-498b-9c51-44b765a96275">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5cb6244d-fd16-4b90-886f-3f7f12da1245">
+  <img alt="sw_architecture" src="https://github.com/user-attachments/assets/5cb6244d-fd16-4b90-886f-3f7f12da1245">
+</picture>
 
 ### 3. System-Flow - A : 음성 인식 제어
 사용자의 음성이 웹 서버를 거쳐 음성 ai에 의해 명령으로 변환되어 자동차를 제어하는 흐름도입니다.
